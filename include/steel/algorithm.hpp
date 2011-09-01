@@ -13,6 +13,41 @@ namespace steel
 // applies function f to each element in range [first; last),
 // but stops if f returns false
 template <class InputIterator, class F>
+F for_each_while(InputIterator first, InputIterator last, F f);
+
+template <class ForwardIterator, class T>
+ForwardIterator
+min_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    T const& v);
+
+
+template <class ForwardIterator, class Compare, class T>
+ForwardIterator
+min_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    Compare comp,
+                    T const& v);
+
+
+template <class ForwardIterator, class T>
+ForwardIterator
+max_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    T const& v);
+
+
+template <class ForwardIterator, class Compare, class T>
+ForwardIterator
+max_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    Compare comp,
+                    T const& v);
+
+
+// Implementation
+
+template <class InputIterator, class F>
 inline
 F for_each_while(InputIterator first, InputIterator last, F f)
 {
