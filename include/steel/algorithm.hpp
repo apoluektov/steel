@@ -12,9 +12,9 @@ namespace steel
 
 // applies function f to each element in range [first; last),
 // but stops if f returns false
-template <class InIt, class F>
+template <class InputIterator, class F>
 inline
-F for_each_while(InIt first, InIt last, F f)
+F for_each_while(InputIterator first, InputIterator last, F f)
 {
     for ( ; first != last; ++first)
         if (!f(*first))
