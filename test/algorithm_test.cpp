@@ -165,7 +165,7 @@ struct tester
 
 bool compare(tester const& lhs, tester const& rhs)
 {
-    return lhs.v*lhs.v > rhs.v*rhs.v;
+    return lhs.v > rhs.v;
 }
 
 }
@@ -177,10 +177,26 @@ BOOST_AUTO_TEST_CASE(less_works)
     std::vector<int> v;
     v += 2, 3, 5, 1, 8, 0;
 
+    {
     std::vector<int>::const_iterator it =
         steel::min_element_bounded(v.begin(), v.end(), 1);
 
     BOOST_CHECK(*it == 1);
+    }
+
+    {
+    std::vector<int>::const_iterator it =
+        steel::min_element_bounded(v.begin(), v.end(), 0);
+
+    BOOST_CHECK(*it == 0);
+    }
+
+    {
+    std::vector<int>::const_iterator it =
+        steel::min_element_bounded(v.begin(), v.end(), -42);
+
+    BOOST_CHECK(*it == 0);
+    }
 }
 
 BOOST_AUTO_TEST_CASE(less_works_empty)
@@ -200,10 +216,27 @@ BOOST_AUTO_TEST_CASE(comp_works)
     std::vector<t> v;
     v += t(2), t(3), t(5), t(1), t(8), t(0);
 
+    {
     std::vector<t>::const_iterator it =
         steel::min_element_bounded(v.begin(), v.end(), aux::compare, t(5));
 
     BOOST_CHECK(it->v == 5);
+    }
+
+    {
+    std::vector<t>::const_iterator it =
+        steel::min_element_bounded(v.begin(), v.end(), aux::compare, t(8));
+
+    BOOST_CHECK(it->v == 8);
+    }
+
+
+    {
+    std::vector<t>::const_iterator it =
+        steel::min_element_bounded(v.begin(), v.end(), aux::compare, t(11));
+
+    BOOST_CHECK(it->v == 8);
+    }
 }
 
 BOOST_AUTO_TEST_CASE(comp_works_empty)
@@ -227,10 +260,26 @@ BOOST_AUTO_TEST_CASE(less_works)
     std::vector<int> v;
     v += 2, 3, 5, 1, 8, 0;
 
+    {
     std::vector<int>::const_iterator it =
         steel::max_element_bounded(v.begin(), v.end(), 5);
 
     BOOST_CHECK(*it == 5);
+    }
+
+    {
+    std::vector<int>::const_iterator it =
+        steel::max_element_bounded(v.begin(), v.end(), 8);
+
+    BOOST_CHECK(*it == 8);
+    }
+
+    {
+    std::vector<int>::const_iterator it =
+        steel::max_element_bounded(v.begin(), v.end(), 42);
+
+    BOOST_CHECK(*it == 8);
+    }
 }
 
 BOOST_AUTO_TEST_CASE(less_works_empty)
@@ -238,7 +287,7 @@ BOOST_AUTO_TEST_CASE(less_works_empty)
     std::vector<int> v;
 
     std::vector<int>::const_iterator it =
-        steel::max_element_bounded(v.begin(), v.end(), 5);
+        steel::max_element_bounded(v.begin(), v.end(), 8);
 
     BOOST_CHECK(it == v.end());
 }
@@ -250,10 +299,26 @@ BOOST_AUTO_TEST_CASE(comp_works)
     std::vector<t> v;
     v += t(2), t(3), t(5), t(1), t(8), t(0);
 
+    {
     std::vector<t>::const_iterator it =
         steel::max_element_bounded(v.begin(), v.end(), aux::compare, t(5));
 
     BOOST_CHECK(it->v == 2);
+    }
+
+    {
+    std::vector<t>::const_iterator it =
+        steel::max_element_bounded(v.begin(), v.end(), aux::compare, t(0));
+
+    BOOST_CHECK(it->v == 0);
+    }
+
+    {
+    std::vector<t>::const_iterator it =
+        steel::max_element_bounded(v.begin(), v.end(), aux::compare, t(-42));
+
+    BOOST_CHECK(it->v == 0);
+    }
 }
 
 BOOST_AUTO_TEST_CASE(comp_works_empty)
