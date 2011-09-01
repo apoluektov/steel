@@ -10,11 +10,21 @@
 namespace steel
 {
 
-// applies function f to each element in range [first; last),
-// but stops if f returns false
+// Requires: f() returns value that is convertible to bool.
+// Effects: Applies f to the result of dereferencing every iterator 
+//    in the range [first, last), starting from first and proceeding
+//    to iterator i such that f(*i) == false.
+// Returns: f.
+// Complexity: Applies f exactly last - first times.
 template <class InputIterator, class F>
 F for_each_while(InputIterator first, InputIterator last, F f);
 
+
+// Returns: The first iterator i in the range [first, last) such that 
+//    either !(v < *i) or for any iterator j in the range [first, last)
+//    the following holds: !(*j < *i)
+// Returns last if first == last.
+// Complexity: Maximum 2*(last - first) applications of operator<.
 template <class ForwardIterator, class T>
 ForwardIterator
 min_element_bounded(ForwardIterator first,
@@ -22,6 +32,11 @@ min_element_bounded(ForwardIterator first,
                     T const& v);
 
 
+// Returns: The first iterator i in the range [first, last) such that 
+//    either !comp(v < *i) or for any iterator j in the range [first, last)
+//    the following holds: !comp(*j < *i)
+// Returns last if first == last.
+// Complexity: Maximum 2*(last - first) applications of comp.
 template <class ForwardIterator, class Compare, class T>
 ForwardIterator
 min_element_bounded(ForwardIterator first,
@@ -30,6 +45,11 @@ min_element_bounded(ForwardIterator first,
                     T const& v);
 
 
+// Returns: The first iterator i in the range [first, last) such that 
+//    either !(*i < v) or for any iterator j in the range [first, last)
+//    the following holds: !(*i < *j)
+// Returns last if first == last.
+// Complexity: Maximum 2*(last - first) applications of operator<.
 template <class ForwardIterator, class T>
 ForwardIterator
 max_element_bounded(ForwardIterator first,
@@ -37,6 +57,11 @@ max_element_bounded(ForwardIterator first,
                     T const& v);
 
 
+// Returns: The first iterator i in the range [first, last) such that 
+//    either !comp(*i, v) or for any iterator j in the range [first, last)
+//    the following holds: !comp(*i, *j)
+// Returns last if first == last.
+// Complexity: Maximum 2*(last - first) applications of comp.
 template <class ForwardIterator, class Compare, class T>
 ForwardIterator
 max_element_bounded(ForwardIterator first,
