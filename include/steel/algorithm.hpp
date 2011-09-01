@@ -72,6 +72,55 @@ min_element_bounded(ForwardIterator first,
     return lowest;
 }
 
+template <class ForwardIterator, class T>
+inline
+ForwardIterator
+max_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    T const& v)
+{
+    if (first == last)
+        return last;
+
+    ForwardIterator largest = first;
+    if (!(*largest < v))
+        return largest;
+
+    while (++first != last) {
+        if (*largest < *first) { 
+            largest = first;
+            if (!(*largest < v))
+                return largest;
+        }
+    }
+    return largest;
+}
+
+template <class ForwardIterator, class Compare, class T>
+inline
+ForwardIterator
+max_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    Compare comp,
+                    T const& v)
+{
+    if (first == last)
+        return last;
+
+    ForwardIterator largest = first;
+    if (!comp(*largest, v))
+        return largest;
+
+    while (++first != last) {
+        if (comp(*largest, *first)) { 
+            largest = first;
+            if (!comp(*largest, v))
+                return largest;
+        }
+    }
+    return largest;
+}
+
 } // namespace steel
 
 #endif // STEEL_ALGORITHM_HPP_INCLUDED_
