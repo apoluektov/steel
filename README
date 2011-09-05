@@ -1,1 +1,67 @@
 Missing parts of C++ Standard Library.
+
+The project called "steel" to have somewhat common name with STL.
+All names are defined in 'steel namespace'.
+
+================================================================================
+algorithm.hpp:
+================================================================================
+
+template <class InputIterator, class F>
+F for_each_while(InputIterator first, InputIterator last, F f);
+
+Like std::for_each, but stops whenever functor f returns false.
+It is as if std::find_if and std::for_each algorithms were combined, and their
+appropriate predicate and functor were fused. It is useful when checking whether
+an element satisfies predicate is in fact significant part of its processing,
+and thus it is more efficient to combine both operations.
+Example: matching an element against a container of patterns and parsing it
+into some structure if it matches.
+
+--------------------------------------------------------------------------------
+
+template <class ForwardIterator, class T>
+ForwardIterator
+min_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    T const& v);
+
+Same as std::min_element, but returns immediately if element v or less is found
+in the container. The typical example is finding mininmum element in a container
+of unsigned integers: it is known for sure that there is no element less than 0,
+and thus, as soon as 0 is found it is _the_ minimum element. Another example is
+when it is not that important to find absolute minimum if small enough element
+was found.
+NOTE: this function can be actually less efficient than std::min_element
+because more comparisons on elements are performed. Thus, some knowledge about
+the nature of the container is required.
+
+--------------------------------------------------------------------------------
+
+template <class ForwardIterator, class Compare, class T>
+ForwardIterator
+min_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    Compare comp,
+                    T const& v);
+
+Same as above, but comparator is used for elements comparison.
+
+--------------------------------------------------------------------------------
+
+template <class ForwardIterator, class T>
+ForwardIterator
+max_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    T const& v);
+
+template <class ForwardIterator, class Compare, class T>
+ForwardIterator
+max_element_bounded(ForwardIterator first,
+                    ForwardIterator last,
+                    Compare comp,
+                    T const& v);
+
+Same as min_element_bounded, but for maximum element.
+
+--------------------------------------------------------------------------------
